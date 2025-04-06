@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  pull_request: {}
+  push:
+    branches:
+      - main
+
+jobs:
+  build-contianer:
+    permissions:
+      contents: read
+      packages: write
+    name: Build container
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - name: Gather versions
+        id: repo
+        run: |-
+          alpine_version_full="$(grep -e "ALPINE_VERSION=" Dockerfile | cut -d '=' -f 2)"
+          alpine_version="${alpine_version_full%@*}"
+          prosody_version="$(grep -e "PROSODY_VERSION=" Dockerfile | cut -d '=' -f 2)"
+          echo "alpine_version_full=$alpine_version_full" >> "$GITHUB_OUTPUT"
+          echo "alpine_version=$alpine_version" >> "$GITHUB_OUTPUT"
+          echo "prosody_version=$prosody_version" >> "$GITHUB_OUTPUT"
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@4574d27a4764455b42196d70a065bc6853246a25 # v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f7ce87c1d6bead3e36075b2ce75da1f6cc28aaca # v3
+      - name: Log into ghcr.io
+        if: github.event_name == 'push'
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@ca877d9245402d1537745e0e356eab47c3520991 # v6
+        with:
+          push: ${{ github.event_name == 'push' }}
+          platforms: linux/amd64,linux/arm64
+          tags: |-
+            ghcr.io/${{ github.repository }}:${{ steps.repo.outputs.prosody_version }}-${{ steps.repo.outputs.alpine_version }}
