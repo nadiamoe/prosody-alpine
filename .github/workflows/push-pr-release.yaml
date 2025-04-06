@@ -35,10 +35,25 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push base
+        uses: docker/build-push-action@ca877d9245402d1537745e0e356eab47c3520991 # v6
+        with:
+          push: ${{ github.event_name == 'push' }}
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          target: core
+          tags: |-
+            ghcr.io/${{ github.repository }}:${{ steps.repo.outputs.prosody_version }}
+            ghcr.io/${{ github.repository }}:${{ steps.repo.outputs.prosody_version }}-alpine${{ steps.repo.outputs.alpine_version }}
       - name: Build and push
         uses: docker/build-push-action@ca877d9245402d1537745e0e356eab47c3520991 # v6
         with:
           push: ${{ github.event_name == 'push' }}
           platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          target: community
           tags: |-
-            ghcr.io/${{ github.repository }}:${{ steps.repo.outputs.prosody_version }}-${{ steps.repo.outputs.alpine_version }}
+            ghcr.io/${{ github.repository }}-community:${{ steps.repo.outputs.prosody_version }}
+            ghcr.io/${{ github.repository }}-community:${{ steps.repo.outputs.prosody_version }}-alpine${{ steps.repo.outputs.alpine_version }}
