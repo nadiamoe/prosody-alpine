@@ -1,5 +1,5 @@
 # Renovate and CI/CD interact with the following line. Keep its format as it is.
-ARG ALPINE_VERSION=3.21.3@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c
+ARG ALPINE_VERSION=3.22.0@sha256:8a1f59ffb675680d47db6337b49d22281a139e9d709335b492be023728e11715
 
 FROM --platform=$BUILDPLATFORM alpine:${ALPINE_VERSION} AS community-modules-dl
 
@@ -13,7 +13,7 @@ RUN hg clone https://hg.prosody.im/prosody-modules/ /prosody-modules
 FROM alpine:${ALPINE_VERSION} AS core
 
 # Renovate and CI/CD interact with the following line. Keep its format as it is.
-ARG PROSODY_VERSION=0.12.4-r2
+ARG PROSODY_VERSION=0.12.5-r1
 RUN apk add --no-cache tini "prosody=${PROSODY_VERSION}"
 
 USER prosody
