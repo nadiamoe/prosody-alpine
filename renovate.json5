@@ -24,7 +24,7 @@
       "customType": "regex",
       "depNameTemplate": "alpine",
       "datasourceTemplate": "docker",
-      "fileMatch": [
+      "matchFileNames": [
         "Dockerfile"
       ],
       "matchStrings": [
@@ -34,7 +34,7 @@
     {
       // Update prosody version from alpine packages.
       "customType": "regex",
-      "fileMatch": [
+      "matchFileNames": [
         "Dockerfile",
       ],
       "matchStrings": [
