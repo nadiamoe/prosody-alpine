@@ -36,7 +36,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push base
-        uses: docker/build-push-action@601a80b39c9405e50806ae38af30926f9d957c47 # v6
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
           push: ${{ github.event_name == 'push' }}
           platforms: linux/amd64,linux/arm64
@@ -47,7 +47,7 @@ jobs:
             ghcr.io/${{ github.repository }}:${{ steps.repo.outputs.prosody_version }}
             ghcr.io/${{ github.repository }}:${{ steps.repo.outputs.prosody_version }}-alpine${{ steps.repo.outputs.alpine_version }}
       - name: Build and push
-        uses: docker/build-push-action@601a80b39c9405e50806ae38af30926f9d957c47 # v6
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
           push: ${{ github.event_name == 'push' }}
           platforms: linux/amd64,linux/arm64
