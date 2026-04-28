@@ -1,6 +1,17 @@
 # Renovate and CI/CD interact with the following line. Keep its format as it is.
 ARG ALPINE_VERSION=3.23.4@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11
 
+FROM --platform=$BUILDPLATFORM alpine:${ALPINE_VERSION} AS mod-http-upload-s3
+
+# Renovate and CI/CD interact with the following line. Keep its format as it is.
+ADD https://github.com/LittleFox94/prosody-mod_http_upload_s3/archive/f5f1ab6e28923d434ebf481edbbb6d4962af6dd9.tar.gz /download/prosody-mod_http_upload_s3.tar.gz
+RUN <<EOF
+  set -e
+  mkdir /out
+  tar -xzvf /download/prosody-mod_http_upload_s3.tar.gz -C /out
+  mv /out/prosody-mod_http_upload_s3* /mod_http_upload_s3
+EOF
+
 FROM --platform=$BUILDPLATFORM alpine:${ALPINE_VERSION} AS community-modules-dl
 
 # This copies nothing of interest, but the build system will remember the returned etag header. Subsequent builds will
@@ -23,3 +34,4 @@ ENTRYPOINT [ "/sbin/tini", "--", "prosody" ]
 FROM core AS community
 
 COPY --from=community-modules-dl /prosody-modules /usr/local/lib/prosody/prosody-modules
+COPY --from=mod-http-upload-s3 /mod_http_upload_s3 /usr/local/lib/prosody/prosody-modules/mod_http_upload_s3

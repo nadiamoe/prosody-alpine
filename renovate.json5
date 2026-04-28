@@ -32,6 +32,18 @@
       ]
     },
     {
+      "customType": "regex",
+      "depNameTemplate": "prosody-mod_http_upload_s3",
+      "packageNameTemplate": "https://github.com/LittleFox94/prosody-mod_http_upload_s3",
+      "datasourceTemplate": "git-refs",
+      "managerFilePatterns": [
+        "Dockerfile"
+      ],
+      "matchStrings": [
+        "https://github.com/LittleFox94/prosody-mod_http_upload_s3/archive/(?<currentDigest>[0-9a-f]+)",
+      ]
+    },
+    {
       // Update prosody version from alpine packages.
       "customType": "regex",
       "managerFilePatterns": [
