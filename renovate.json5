@@ -36,6 +36,7 @@
       "depNameTemplate": "prosody-mod_http_upload_s3",
       "packageNameTemplate": "https://github.com/LittleFox94/prosody-mod_http_upload_s3",
       "datasourceTemplate": "git-refs",
+      "currentValueTemplate": "configurable-s3-url", // Last updated branch as of time of commit.
       "managerFilePatterns": [
         "Dockerfile"
       ],
