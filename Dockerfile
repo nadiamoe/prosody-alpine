@@ -24,7 +24,7 @@ RUN hg clone https://hg.prosody.im/prosody-modules/ /prosody-modules
 FROM alpine:${ALPINE_VERSION} AS core
 
 # Renovate and CI/CD interact with the following line. Keep its format as it is.
-ARG PROSODY_VERSION=13.0.2-r0
+ARG PROSODY_VERSION=13.0.5-r0
 RUN apk add --no-cache tini "prosody=${PROSODY_VERSION}"
 
 USER prosody
