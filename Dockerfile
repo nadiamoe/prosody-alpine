@@ -1,5 +1,5 @@
 # Renovate and CI/CD interact with the following line. Keep its format as it is.
-ARG ALPINE_VERSION=3.24.2@sha256:3cf95fe0816180395592b8373f3ec60663f076127617bbacb4eacf9667afe2e9
+ARG ALPINE_VERSION=3.24.2@sha256:31b6477333eb8257db9e5d7c3a7264fd0467928756f0bbcc27d35bea5d28cdbd
 
 FROM --platform=$BUILDPLATFORM alpine:${ALPINE_VERSION} AS mod-http-upload-s3
 
